@@ -8,11 +8,11 @@ public enum TokenType {
 
 	// Symbols
 	SEMICOLON,     // ;
-	ASSIGN,        // =
+	ASSIGN,        // :=
 
 	// Logic operators
-	EQUAL,         // ==
-	NOT_EQUAL,     // !=
+	EQUAL,         // =
+	DIFFERENCE,     // <> 
 	LOWER,         // <
 	LOWER_EQUAL,   // <=
 	GREATER,       // >
@@ -27,16 +27,19 @@ public enum TokenType {
 
 	// Keywords
 	PROGRAM,       // program
-	WHILE,         // while
-	DO,            // do
-	DONE,          // done
 	IF,            // if
-	THEN,          // then
 	ELSE,          // else
-	OUTPUT,        // output
-	TRUE,          // true
-	FALSE,         // false
-	READ,          // read
+	CASE,          // case
+	WHILE,         // while
+	REPEAT,		   // repeat
+	FOR,           // for
+	WRITE,         // write
+	WRITELN,       // writeln
+	READLN,        // readln
+
+	BEGIN,         // begin
+	END,           // end
+
 	NOT,           // not
 
 	// Others
