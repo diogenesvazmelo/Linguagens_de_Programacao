@@ -1,11 +1,12 @@
+
 import interpreter.command.BlocksCommand;
 import lexical.LexicalAnalysis;
 import syntatic.SyntaticAnalysis;
 
-public class tinyi {
+public class mpas {
   public static void main(String args[]) {
     if (args.length != 1) {
-      System.out.println("Usage: java tinyi [source file]");
+      System.out.println("Usage: java mpas [source file]");
       return;
     }
 
