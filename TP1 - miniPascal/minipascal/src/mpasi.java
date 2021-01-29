@@ -15,8 +15,7 @@ public class mpasi {
             return;
         }
 
-        try (LexicalAnalysis l = new LexicalAnalysis(args[0])) {
-            System.out.printf("EXAMPLE");
+        try (LexicalAnalysis l = new LexicalAnalysis(args[0])) {            
             /*
             // O código a seguir é dado para testar o interpretador.
             // TODO: descomentar depois que o analisador léxico estiver OK.

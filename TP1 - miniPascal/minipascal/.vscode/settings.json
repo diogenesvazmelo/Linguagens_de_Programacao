@@ -1,6 +1,5 @@
 {
     "files.exclude": {
         "**/*.class": true
-    },
-    "java.format.settings.url": "eclipse-formatter.xml"
+    },    
 }
