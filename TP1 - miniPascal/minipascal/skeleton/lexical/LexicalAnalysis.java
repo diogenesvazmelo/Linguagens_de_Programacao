@@ -34,7 +34,7 @@ public class LexicalAnalysis implements AutoCloseable {
     public Lexeme nextToken() throws LexicalException, IOException {
         Lexeme lex = new Lexeme("", TokenType.END_OF_FILE);
 
-        int state = 1;
+        int state = 13;
         while (state != 12 && state != 13) {
             int c = getc();
             

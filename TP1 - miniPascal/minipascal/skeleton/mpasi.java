@@ -16,6 +16,7 @@ public class mpasi {
         }
 
         try (LexicalAnalysis l = new LexicalAnalysis(args[0])) {
+            System.out.printf("EXAMPLE");
             /*
             // O código a seguir é dado para testar o interpretador.
             // TODO: descomentar depois que o analisador léxico estiver OK.
@@ -27,7 +28,7 @@ public class mpasi {
             // O código a seguir é usado apenas para testar o analisador léxico.
             // TODO: depois de pronto, comentar o código abaixo.
             Lexeme lex = l.nextToken();
-            while (checkType(lex.type)) {
+            while (checkType(lex.type)) {                
                 System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
                 lex = l.nextToken();
             }
@@ -39,7 +40,8 @@ public class mpasi {
                 case UNEXPECTED_EOF:
                     System.out.printf("%02d: Fim de arquivo inesperado\n", l.getLine());
                     break;
-                default:
+                default: 
+                    // end of file message
                     System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
                     break;
             }
