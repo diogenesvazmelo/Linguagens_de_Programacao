@@ -69,6 +69,7 @@ public class SyntaticAnalysis {
 
     // <const>    ::= <id> = <value> ';'
     private void procConst() throws LexicalException, IOException {
+
     }
 
     // <var>      ::= <id> { ',' <id> } [ = <value> ] ';'
@@ -101,6 +102,10 @@ public class SyntaticAnalysis {
 
     // <while>    ::= while <boolexpr> do <body>
     private void procWhile() throws LexicalException, IOException {
+        eat(TokenType.WHILE);
+        procBoolExpr();
+        eat(TokenType.DO);
+        procBody();
     }
 
     // <repeat>   ::= repeat [ <cmd> { ';' <cmd> } ] until <boolexpr>
