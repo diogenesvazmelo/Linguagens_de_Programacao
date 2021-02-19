@@ -65,6 +65,29 @@ public class SyntaticAnalysis {
     //                [ var <var> { <var> } ]
     //                <block> '.'
     private void procProgram() throws LexicalException, IOException {
+        eat(TokenType.PROGRAM);
+        procId();
+        eat(TokenType.SEMICOLON);
+        
+        if ( this.current.type == TokenType.CONST ){
+            eat(TokenType.CONST);
+            procConst();
+            while( this.current.type == TokenType.CONST ){
+                eat(TokenType.CONST);
+                procConst();
+            }
+        }
+        
+        if ( this.current.type == TokenType.VAR ) {
+            eat(TokenType.VAR);
+            procConst();
+            while( this.current.type == TokenType.VAR ) {
+                eat(TokenType.VAR);
+                procConst();
+            }
+        }
+
+        procBlock();
     }
 
     // <const>    ::= <id> = <value> ';'
@@ -90,10 +113,22 @@ public class SyntaticAnalysis {
 
     // <assign>   ::= <id> := <expr>
     private void procAssign() throws LexicalException, IOException {
+        procId();
+        eat(TokenType.ASSIGN);
+
     }
 
     // <if>       ::= if <boolexpr> then <body> [else <body>]
     private void procIf() throws LexicalException, IOException {
+        eat(TokenType.IF);
+        procBoolExpr();
+        eat(TokenType.THEN);
+        procBody();
+        eat(TokenType.WHILE);
+        if (this.current.type == TokenType.ELSE){
+            eat(TokenType.ELSE);
+            procBody();
+        }
     }
 
     // <case>     ::= case <expr> of { <value> : <body> ';' } [ else <body> ';' ] end
