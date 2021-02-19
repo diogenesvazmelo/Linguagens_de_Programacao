@@ -92,15 +92,31 @@ public class SyntaticAnalysis {
 
     // <const>    ::= <id> = <value> ';'
     private void procConst() throws LexicalException, IOException {
-
+        procId();
+        eat(TokenType.EQUAL);
+        procValue();
+        eat(TokenType.SEMICOLON);
     }
 
     // <var>      ::= <id> { ',' <id> } [ = <value> ] ';'
     private void procVar() throws LexicalException, IOException {
+        procId();
+        while( this.current.type == TokenType.COMMA ) {
+            eat(TokenType.COMMA);
+            procId();
+        }
+
+        if (this.current.type == TokenType.EQUAL){
+            eat(TokenType.EQUAL);
+            procValue();
+        }
+
+        eat(TokenType.SEMICOLON);
     }
 
     // <body>     ::= <block> | <cmd>
     private void procBody() throws LexicalException, IOException {
+        
     }
 
     // <block>    ::= begin [ <cmd> { ';' <cmd> } ] end
