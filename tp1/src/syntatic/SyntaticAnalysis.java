@@ -150,47 +150,101 @@ public class SyntaticAnalysis {
 
     // <write>    ::= (write | writeln) '(' [ <expr> { ',' <expr> } ] ')'
     private void procWrite() throws LexicalException, IOException {
+        if (current.type == TokenType.WRITE || current.type == TokenType.WRITELN){
+            advance();
+        }
+        eat(TokenType.OPEN_PAR);
+        if (procExpr()){
+            while (current.type == TokenType.COMMA){
+                advance();
+                procExpr()
+            }
+        }
+        eat(TokenType.CLOSE_PAR);
     }
 
     // <read>     ::= readln '(' <id> { ',' <id> } ')'
     private void procRead() throws LexicalException, IOException {
+        eat(TokenType.READLN);
+        eat(TokenType.OPEN_PAR);
+        procId();
+        while(current.type == TokenType.COMMA){
+            advance();
+            procId();
+        }
     }
     
     // <boolexpr> ::= [ not ] <cmpexpr> [ (and | or) <boolexpr> ]
     private void procBoolExpr() throws LexicalException, IOException {
+        if (current.type == TokenType.NOT) {
+            advance();
+        }
+        procCmpExpr();
+        if (current.type == TokenType.AND || current.type == TokenType.OR) {
+            advance();
+            procCmpExpr();
+        }
     }
 
     // <cmpexpr>  ::= <expr> ('=' | '<>' | '<' | '>' | '<=' | '>=') <expr>
     private void procCmpExpr() throws LexicalException, IOException {
+        procExpr();
         if (current.type == TokenType.EQUAL) {
-            eat(TokenType.EQUAL);
+            advance();
         } else if (current.type == TokenType.NOT_EQUAL) {
-            eat(TokenType.NOT_EQUAL);
+            advance();
         } else if (current.type == TokenType.LOWER) {
-            eat(TokenType.LOWER);
+            advance();
         } else if (current.type == TokenType.GREATER) {
-            eat(TokenType.GREATER);
+            advance();
         } else if (current.type == TokenType.LOWER_EQ) {
-            eat(TokenType.LOWER_EQ);
+            advance();
         } else {
-            eat(TokenType.GREATER_EQ);
+            advance();
         }
+        procExpr();
     }
 
     // <expr>     ::= <term> { ('+' | '-') <term> }
     private void procExpr() throws LexicalException, IOException {
+        procTerm();
+        while (current.type == TokenType.ADD || current.type == TokenType.SUB) {
+            advance();
+            procTerm();
+        }
     }
 
     // <term>     ::= <factor> { ('*' | '/' | '%') <factor> }
     private void procTerm() throws LexicalException, IOException {
+        procFactor();
+        while(current.type == TokenType.MUL || current.type == TokenType.DIV || current.type == TokenType.MOD){
+            advance();
+            procFactor();
+        }
     }
 
     // <factor>   ::= <value> | <id> | '(' <expr> ')'
     private void procFactor() throws LexicalException, IOException {
+        if (current.type == TokenType.VALUE) {
+            procValue();
+        } else if (current.type == TokenType.ID) {
+            procId();
+        } else {
+            eat(TokenType.OPEN_PAR);
+            procExpr();
+            eat(TokenType.CLOSE_PAR);
+        }
     }
 
     // <value>    ::= <integer> | <real> | <string>
     private void procValue() throws LexicalException, IOException {
+        if (current.type == TokenType.INTEGER) {
+            procInteger();
+        } else if (current.type == TokenType.REAL) {
+            procReal();
+        } else {
+            procString();
+        }
     }
 
     private void procId() throws LexicalException, IOException {
