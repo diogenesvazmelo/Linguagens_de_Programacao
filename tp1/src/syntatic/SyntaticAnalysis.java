@@ -75,8 +75,7 @@ public class SyntaticAnalysis {
             advance();
             procConst();
 
-            while( this.current.type == TokenType.CONST ){
-                advance();
+            while( this.current.type == TokenType.ID ){                
                 procConst();
             }
         }
@@ -84,13 +83,13 @@ public class SyntaticAnalysis {
         if ( this.current.type == TokenType.VAR ) {
             eat(TokenType.VAR);
             procConst();
-            while( this.current.type == TokenType.VAR ) {
-                advance();
-                procConst();
+            while( this.current.type == TokenType.ID ) {                
+                procVar();
             }
         }
 
         procBlock();
+        eat(TokenType.DOT);
     }
 
     // <const>    ::= <id> = <value> ';'
@@ -101,7 +100,7 @@ public class SyntaticAnalysis {
         eat(TokenType.SEMICOLON);
     }
 
-    // <var>      ::= <id> { ',' <id> } [ = <value> ] ';'
+    // <var> ::= <id> { ',' <id> } [ = <value> ] ';'
     private void procVar() throws LexicalException, IOException {
         procId();
 
@@ -120,16 +119,29 @@ public class SyntaticAnalysis {
 
     // <body>     ::= <block> | <cmd>
     private void procBody() throws LexicalException, IOException {
-        // eat(TokenType.BEGIN);
-        // procBlock();
 
+        if (this.current.type == TokenType.BEGIN){
+            procBlock();
+        } else { 
+            procCmd();
+        }
     }
 
     // <block>    ::= begin [ <cmd> { ';' <cmd> } ] end
     private void procBlock() throws LexicalException, IOException {
         eat(TokenType.BEGIN);
         
-        if (this.current.type != TokenType.END){
+        if (            
+            this.current.type == TokenType.ID ||
+            this.current.type == TokenType.IF ||
+            this.current.type == TokenType.CASE ||
+            this.current.type == TokenType.WHILE ||
+            this.current.type == TokenType.REPEAT ||
+            this.current.type == TokenType.FOR ||
+            this.current.type == TokenType.WRITE ||
+            this.current.type == TokenType.WRITELN ||
+            this.current.type == TokenType.READLN
+        ){
             procCmd();
             while(this.current.type == TokenType.SEMICOLON){
                 advance();
@@ -142,26 +154,29 @@ public class SyntaticAnalysis {
 
     // <cmd>      ::= <assign> | <if> | <case> | <while> | <for> | <repeat> | <write> | <read>
     private void procCmd() throws LexicalException, IOException {
-        if (current.type == TokenType.ASSIGN) {
-            procAssign();
-        } else if (current.type == TokenType.IF) {
-            procIf();
-        } else if (current.type == TokenType.CASE) {
-            procCase();
-        } else if (current.type == TokenType.WHILE) {
-            procWhile();
-        } else if (current.type == TokenType.FOR) {
-            procFor();
-        } else if (current.type == TokenType.REPEAT) {
-            procRepeat();
-        } else if (current.type == TokenType.WRITE) {
-            procWrite();
-        } else {
-            procRead();
-        }
+    if (this.current.type == TokenType.IF) {    
+        procIf();
+    } else if (this.current.type == TokenType.CASE) {
+        procCase();
+    } else if (this.current.type == TokenType.WHILE) {
+        procWhile();
+    } else if (this.current.type == TokenType.FOR) {
+        procFor();
+    } else if (this.current.type == TokenType.REPEAT) {
+        procRepeat();
+    } else if (
+        this.current.type == TokenType.WRITE ||
+        this.current.type == TokenType.WRITELN
+    ) {
+        procWrite();
+    } else if ( this.current.type == TokenType.READLN ){
+        procRead();
+    }else {     
+        procAssign();
     }
+}
 
-    // <assign>   ::= <id> := <expr>
+// <assign>   ::= <id> := <expr>
     private void procAssign() throws LexicalException, IOException {
         procId();
         eat(TokenType.ASSIGN);
@@ -174,7 +189,7 @@ public class SyntaticAnalysis {
         procBoolExpr();
         eat(TokenType.THEN);
         procBody();
-        if (current.type == TokenType.ELSE) {
+        if (this.current.type == TokenType.ELSE) {
             advance();
             procBody();
         }
@@ -185,16 +200,24 @@ public class SyntaticAnalysis {
         eat(TokenType.CASE);
         procExpr();
         eat(TokenType.OF);        
-        do {
+            
+        while(                
+            this.current.type == TokenType.REAL ||
+            this.current.type == TokenType.INTEGER ||
+            this.current.type == TokenType.STRING
+        ) {
             procValue();
+            eat(TokenType.COLON);
             procBody();
-        }while(this.current.type == TokenType.SEMICOLON);
-
+            eat(TokenType.SEMICOLON);
+        }
+            
         if (this.current.type == TokenType.ELSE){
             advance();
             procBody();
             eat(TokenType.SEMICOLON);
         }   
+        eat(TokenType.END);
     }
 
     // <while>    ::= while <boolexpr> do <body>
@@ -209,10 +232,22 @@ public class SyntaticAnalysis {
     private void procRepeat() throws LexicalException, IOException {
         eat(TokenType.REPEAT);
         
-        procCmd();
-        while(this.current.type == TokenType.SEMICOLON){
-            advance();
+        if (            
+            this.current.type == TokenType.ID ||
+            this.current.type == TokenType.IF ||
+            this.current.type == TokenType.CASE ||
+            this.current.type == TokenType.WHILE ||
+            this.current.type == TokenType.REPEAT ||
+            this.current.type == TokenType.FOR ||
+            this.current.type == TokenType.WRITE ||
+            this.current.type == TokenType.WRITELN ||
+            this.current.type == TokenType.READLN
+        ){
             procCmd();
+            while(this.current.type == TokenType.SEMICOLON){
+                advance();
+                procCmd();
+            }
         }
 
         eat(TokenType.UNTIL);
@@ -223,10 +258,13 @@ public class SyntaticAnalysis {
     private void procFor() throws LexicalException, IOException {
         eat(TokenType.FOR);
         procId();
+
         eat(TokenType.ASSIGN);
         procExpr();
+
         eat(TokenType.TO);
         procExpr();
+
         eat(TokenType.DO);
         procBody();
     }
@@ -237,12 +275,19 @@ public class SyntaticAnalysis {
             advance();
         }
         eat(TokenType.OPEN_PAR);
-        if (procExpr()){
+
+        if (                
+            this.current.type == TokenType.REAL ||
+            this.current.type == TokenType.INTEGER ||
+            this.current.type == TokenType.STRING
+        ) {
+            procExpr();
             while (current.type == TokenType.COMMA){
                 advance();
-                procExpr()
+                procExpr();
             }
         }
+        
         eat(TokenType.CLOSE_PAR);
     }
 
@@ -250,11 +295,14 @@ public class SyntaticAnalysis {
     private void procRead() throws LexicalException, IOException {
         eat(TokenType.READLN);
         eat(TokenType.OPEN_PAR);
+
         procId();
         while(current.type == TokenType.COMMA){
             advance();
             procId();
         }
+
+        eat(TokenType.CLOSE_PAR);
     }
     
     // <boolexpr> ::= [ not ] <cmpexpr> [ (and | or) <boolexpr> ]
@@ -262,7 +310,9 @@ public class SyntaticAnalysis {
         if (current.type == TokenType.NOT) {
             advance();
         }
+
         procCmpExpr();
+        
         if (current.type == TokenType.AND || current.type == TokenType.OR) {
             advance();
             procCmpExpr();
@@ -272,6 +322,7 @@ public class SyntaticAnalysis {
     // <cmpexpr>  ::= <expr> ('=' | '<>' | '<' | '>' | '<=' | '>=') <expr>
     private void procCmpExpr() throws LexicalException, IOException {
         procExpr();
+
         if (current.type == TokenType.EQUAL) {
             advance();
         } else if (current.type == TokenType.NOT_EQUAL) {
@@ -282,15 +333,17 @@ public class SyntaticAnalysis {
             advance();
         } else if (current.type == TokenType.LOWER_EQ) {
             advance();
-        } else {
+        } else if (current.type == TokenType.GREATER_EQ) {
             advance();
         }
+        
         procExpr();
     }
 
     // <expr>     ::= <term> { ('+' | '-') <term> }
     private void procExpr() throws LexicalException, IOException {
         procTerm();
+
         while (current.type == TokenType.ADD || current.type == TokenType.SUB) {
             advance();
             procTerm();
@@ -300,6 +353,7 @@ public class SyntaticAnalysis {
     // <term>     ::= <factor> { ('*' | '/' | '%') <factor> }
     private void procTerm() throws LexicalException, IOException {
         procFactor();
+        
         while(current.type == TokenType.MUL || current.type == TokenType.DIV || current.type == TokenType.MOD){
             advance();
             procFactor();
@@ -308,7 +362,11 @@ public class SyntaticAnalysis {
 
     // <factor>   ::= <value> | <id> | '(' <expr> ')'
     private void procFactor() throws LexicalException, IOException {
-        if (current.type == TokenType.VALUE) {
+        if (
+            current.type == TokenType.INTEGER ||
+            current.type == TokenType.REAL ||
+            current.type == TokenType.STRING 
+        ) {
             procValue();
         } else if (current.type == TokenType.ID) {
             procId();
