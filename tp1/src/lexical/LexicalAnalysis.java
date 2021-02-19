@@ -186,8 +186,7 @@ public class LexicalAnalysis implements AutoCloseable {
                         lex.token += (char) c;
                         state = 8;
                     } else {
-                        ungetc(c);
-                        // TODO: is this right?
+                        ungetc(c);                        
                         lex.type = TokenType.ID;
                         state = 12;
                     }
