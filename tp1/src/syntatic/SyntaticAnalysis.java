@@ -22,7 +22,10 @@ public class SyntaticAnalysis {
     }
 
     public Command start() throws LexicalException, IOException {
-        return null;
+        //return null;
+
+        procProgram();
+        matchToken(TokenType.END_OF_FILE);
     }
 
     private void advance() throws LexicalException, IOException {
@@ -125,6 +128,23 @@ public class SyntaticAnalysis {
 
     // <cmd>      ::= <assign> | <if> | <case> | <while> | <for> | <repeat> | <write> | <read>
     private void procCmd() throws LexicalException, IOException {
+        if (current.type == TokenType.ASSIGN) {
+            procAssign();
+        } else if (current.type == TokenType.IF) {
+            procIf();
+        } else if (current.type == TokenType.CASE) {
+            procCase();
+        } else if (current.type == TokenType.WHILE) {
+            procWhile();
+        } else if (current.type == TokenType.FOR) {
+            procFor();
+        } else if (current.type == TokenType.REPEAT) {
+            procRepeat();
+        } else if (current.type == TokenType.WRITE) {
+            procWrite();
+        } else {
+            procRead();
+        }
     }
 
     // <assign>   ::= <id> := <expr>
@@ -140,9 +160,8 @@ public class SyntaticAnalysis {
         procBoolExpr();
         eat(TokenType.THEN);
         procBody();
-        eat(TokenType.WHILE);
-        if (this.current.type == TokenType.ELSE){
-            eat(TokenType.ELSE);
+        if (current.type == TokenType.ELSE) {
+            advance();
             procBody();
         }
     }
@@ -181,6 +200,19 @@ public class SyntaticAnalysis {
 
     // <cmpexpr>  ::= <expr> ('=' | '<>' | '<' | '>' | '<=' | '>=') <expr>
     private void procCmpExpr() throws LexicalException, IOException {
+        if (current.type == TokenType.EQUAL) {
+            eat(TokenType.EQUAL);
+        } else if (current.type == TokenType.NOT_EQUAL) {
+            eat(TokenType.NOT_EQUAL);
+        } else if (current.type == TokenType.LOWER) {
+            eat(TokenType.LOWER);
+        } else if (current.type == TokenType.GREATER) {
+            eat(TokenType.GREATER);
+        } else if (current.type == TokenType.LOWER_EQ) {
+            eat(TokenType.LOWER_EQ);
+        } else {
+            eat(TokenType.GREATER_EQ);
+        }
     }
 
     // <expr>     ::= <term> { ('+' | '-') <term> }
