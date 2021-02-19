@@ -22,7 +22,10 @@ public class SyntaticAnalysis {
     }
 
     public Command start() throws LexicalException, IOException {
-        return null;
+        //return null;
+
+        procProgram();
+        matchToken(TokenType.END_OF_FILE);
     }
 
     private void advance() throws LexicalException, IOException {
@@ -69,7 +72,6 @@ public class SyntaticAnalysis {
 
     // <const>    ::= <id> = <value> ';'
     private void procConst() throws LexicalException, IOException {
-
     }
 
     // <var>      ::= <id> { ',' <id> } [ = <value> ] ';'
@@ -78,6 +80,11 @@ public class SyntaticAnalysis {
 
     // <body>     ::= <block> | <cmd>
     private void procBody() throws LexicalException, IOException {
+        if (current.type == TokenType.BODY) {
+            procBody();
+        } else {
+            procCmd();
+        }
     }
 
     // <block>    ::= begin [ <cmd> { ';' <cmd> } ] end
@@ -86,6 +93,23 @@ public class SyntaticAnalysis {
 
     // <cmd>      ::= <assign> | <if> | <case> | <while> | <for> | <repeat> | <write> | <read>
     private void procCmd() throws LexicalException, IOException {
+        if (current.type == TokenType.ASSIGN) {
+            procAssign();
+        } else if (current.type == TokenType.IF) {
+            procIf();
+        } else if (current.type == TokenType.CASE) {
+            procCase();
+        } else if (current.type == TokenType.WHILE) {
+            procWhile();
+        } else if (current.type == TokenType.FOR) {
+            procFor();
+        } else if (current.type == TokenType.REPEAT) {
+            procRepeat();
+        } else if (current.type == TokenType.WRITE) {
+            procWrite();
+        } else {
+            procRead();
+        }
     }
 
     // <assign>   ::= <id> := <expr>
@@ -94,6 +118,14 @@ public class SyntaticAnalysis {
 
     // <if>       ::= if <boolexpr> then <body> [else <body>]
     private void procIf() throws LexicalException, IOException {
+        eat(TokenType.IF);
+        procBoolExpr();
+        eat(TokenType.THEN);
+        procBody();
+        if (current.type == TokenType.ELSE) {
+            advance();
+            procBody();
+        }
     }
 
     // <case>     ::= case <expr> of { <value> : <body> ';' } [ else <body> ';' ] end
@@ -130,6 +162,23 @@ public class SyntaticAnalysis {
 
     // <cmpexpr>  ::= <expr> ('=' | '<>' | '<' | '>' | '<=' | '>=') <expr>
     private void procCmpExpr() throws LexicalException, IOException {
+        if (current.type == TokenType.ASSIGN) {
+            eat(TokenType.);
+        } else if (current.type == TokenType.IF) {
+            procIf();
+        } else if (current.type == TokenType.CASE) {
+            procCase();
+        } else if (current.type == TokenType.WHILE) {
+            procWhile();
+        } else if (current.type == TokenType.FOR) {
+            procFor();
+        } else if (current.type == TokenType.REPEAT) {
+            procRepeat();
+        } else if (current.type == TokenType.WRITE) {
+            procWrite();
+        } else {
+            procRead();
+        }
     }
 
     // <expr>     ::= <term> { ('+' | '-') <term> }
