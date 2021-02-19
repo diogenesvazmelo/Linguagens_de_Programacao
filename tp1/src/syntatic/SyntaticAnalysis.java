@@ -277,15 +277,19 @@ public class SyntaticAnalysis {
     }
 
     private void procId() throws LexicalException, IOException {
+        eat(TokenType.ID);
     }
 
     private void procInteger() throws LexicalException, IOException {
+        eat(TokenType.INTEGER);
     }
 
     private void procReal() throws LexicalException, IOException {
+        eat(TokenType.REAL);
     }
 
     private void procString() throws LexicalException, IOException {
+        eat(TokenType.STRING);
     }
 
 }
