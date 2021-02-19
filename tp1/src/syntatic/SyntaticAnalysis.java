@@ -162,22 +162,18 @@ public class SyntaticAnalysis {
 
     // <cmpexpr>  ::= <expr> ('=' | '<>' | '<' | '>' | '<=' | '>=') <expr>
     private void procCmpExpr() throws LexicalException, IOException {
-        if (current.type == TokenType.ASSIGN) {
-            eat(TokenType.);
-        } else if (current.type == TokenType.IF) {
-            procIf();
-        } else if (current.type == TokenType.CASE) {
-            procCase();
-        } else if (current.type == TokenType.WHILE) {
-            procWhile();
-        } else if (current.type == TokenType.FOR) {
-            procFor();
-        } else if (current.type == TokenType.REPEAT) {
-            procRepeat();
-        } else if (current.type == TokenType.WRITE) {
-            procWrite();
+        if (current.type == TokenType.EQUAL) {
+            eat(TokenType.EQUAL);
+        } else if (current.type == TokenType.NOT_EQUAL) {
+            eat(TokenType.NOT_EQUAL);
+        } else if (current.type == TokenType.LOWER) {
+            eat(TokenType.LOWER);
+        } else if (current.type == TokenType.GREATER) {
+            eat(TokenType.GREATER);
+        } else if (current.type == TokenType.LOWER_EQ) {
+            eat(TokenType.LOWER_EQ);
         } else {
-            procRead();
+            eat(TokenType.GREATER_EQ);
         }
     }
 
