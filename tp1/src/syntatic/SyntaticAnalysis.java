@@ -1,15 +1,13 @@
 package syntatic;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
 
+import interpreter.command.Command;
 import lexical.Lexeme;
 import lexical.TokenType;
 import lexical.LexicalAnalysis;
 import lexical.LexicalException;
 
-import interpreter.command.Command;
 
 public class SyntaticAnalysis {
 
@@ -23,19 +21,20 @@ public class SyntaticAnalysis {
 
     public Command start() throws LexicalException, IOException {
         procProgram();
+        eat(TokenType.END_OF_FILE);
+        
         return null;
-        // matchToken(TokenType.END_OF_FILE);
     }
 
     private void advance() throws LexicalException, IOException {
-        // System.out.println("Advanced (\"" + current.token + "\", " +
-        //     current.type + ")");
+        System.out.println("Advanced (\"" + current.token + "\", " +
+            current.type + ")");
         current = lex.nextToken();
     }
 
     private void eat(TokenType type) throws LexicalException, IOException {
-        // System.out.println("Expected (..., " + type + "), found (\"" + 
-        //     current.token + "\", " + current.type + ")");
+        System.out.println("Expected (..., " + type + "), found (\"" + 
+            current.token + "\", " + current.type + ")");
         if (type == current.type) {
             current = lex.nextToken();
         } else {
@@ -71,6 +70,7 @@ public class SyntaticAnalysis {
         procId();
         eat(TokenType.SEMICOLON);
         
+        // const
         if ( this.current.type == TokenType.CONST ){
             advance();
             procConst();
@@ -80,9 +80,10 @@ public class SyntaticAnalysis {
             }
         }
         
+        // var
         if ( this.current.type == TokenType.VAR ) {
-            eat(TokenType.VAR);
-            procConst();
+            advance();
+            procVar();
             while( this.current.type == TokenType.ID ) {                
                 procVar();
             }
@@ -279,7 +280,8 @@ public class SyntaticAnalysis {
         if (                
             this.current.type == TokenType.REAL ||
             this.current.type == TokenType.INTEGER ||
-            this.current.type == TokenType.STRING
+            this.current.type == TokenType.STRING ||
+            this.current.type == TokenType.ID
         ) {
             procExpr();
             while (current.type == TokenType.COMMA){
@@ -305,7 +307,7 @@ public class SyntaticAnalysis {
         eat(TokenType.CLOSE_PAR);
     }
     
-    // <boolexpr> ::= [ not ] <cmpexpr> [ (and | or) <boolexpr> ]
+    // <boolexpr> ::= [ not ] <cmpexpr> { (and | or) <boolexpr> }
     private void procBoolExpr() throws LexicalException, IOException {
         if (current.type == TokenType.NOT) {
             advance();
@@ -313,7 +315,7 @@ public class SyntaticAnalysis {
 
         procCmpExpr();
         
-        if (current.type == TokenType.AND || current.type == TokenType.OR) {
+        while (current.type == TokenType.AND || current.type == TokenType.OR) {
             advance();
             procCmpExpr();
         }
@@ -323,6 +325,7 @@ public class SyntaticAnalysis {
     private void procCmpExpr() throws LexicalException, IOException {
         procExpr();
 
+        
         if (current.type == TokenType.EQUAL) {
             advance();
         } else if (current.type == TokenType.NOT_EQUAL) {
