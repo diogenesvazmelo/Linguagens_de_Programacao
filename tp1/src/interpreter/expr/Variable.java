@@ -1,5 +1,7 @@
 package interpreter.expr;
 
+import interpreter.value.*;
+
 public class Variable extends Expr{
     private String name;
 
@@ -8,13 +10,15 @@ public class Variable extends Expr{
         this.name = name;
     }
 
-    public Value<T> expr(){
-        return Value<?> // TODO ?????
+    public Value<?> expr(){
+        return new StringValue(this.name);
     }
 
     public void setValue(Value value){
-        this.va
+        // TODO WHAT DO HERE
     }
 
-    public 
+    public String getName(){
+        return this.name;
+    }
 }
