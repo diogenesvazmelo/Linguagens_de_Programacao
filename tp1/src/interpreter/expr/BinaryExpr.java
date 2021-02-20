@@ -24,71 +24,99 @@ public class BinaryExpr extends Expr{
                    (this.left.expr().value() instanceof String) &&
                    (this.right.expr().value() instanceof String)
                 ) {
-                    return this.left.expr().value().toString() + this.right.expr().value().toString();
+                    return new StringValue(this.left.expr().value().toString() + this.right.expr().value().toString());
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
                 ){
-
+                    return new IntegerValue((int)this.left.expr().value() + (int)this.right.expr().value());
+                }else if (
+                    (this.left.expr().value() instanceof Double) &&
+                    (this.right.expr().value() instanceof Double) 
+                ){
+                    return new RealValue((double)this.left.expr().value() + (double)this.right.expr().value());
                 }else{
-                    
+                    // TODO throw
                 }
             case SubOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                
+                    // TODO throw
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
                 ){
-
+                    return new IntegerValue((int)this.left.expr().value() - (int)this.right.expr().value());
+                }else if (
+                    (this.left.expr().value() instanceof Double) &&
+                    (this.right.expr().value() instanceof Double) 
+                ){
+                    return new RealValue((double)this.left.expr().value() - (double)this.right.expr().value());
                 }else{
-                    
+                    // TODO throw
                 }
             case MulOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                
+                    // TODO throw
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
                 ){
-
+                    return new IntegerValue((int)this.left.expr().value() * (int)this.right.expr().value());
+                }else if (
+                    (this.left.expr().value() instanceof Double) &&
+                    (this.right.expr().value() instanceof Double) 
+                ){
+                    return new RealValue((double)this.left.expr().value() * (double)this.right.expr().value());
                 }else{
-                    
+                    // TODO throw
                 }
             case DivOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                
+                    // TODO throw
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
                 ){
-
+                    return new IntegerValue((int)this.left.expr().value() / (int)this.right.expr().value());
+                }else if (
+                    (this.left.expr().value() instanceof Double) &&
+                    (this.right.expr().value() instanceof Double) 
+                ){
+                    return new RealValue((double)this.left.expr().value() / (double)this.right.expr().value());
                 }else{
-                    
+                    // TODO throw
                 }
             case ModOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                
+                    // TODO throw
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
                 ){
-
+                    return new IntegerValue((int)this.left.expr().value() % (int)this.right.expr().value());
+                }else if (
+                    (this.left.expr().value() instanceof Double) &&
+                    (this.right.expr().value() instanceof Double) 
+                ){
+                    return new RealValue((double)this.left.expr().value() % (double)this.right.expr().value());
                 }else{
-                    
+                    // TODO throw
                 }
+
+            default:
+                return null;
         }
     }
 }

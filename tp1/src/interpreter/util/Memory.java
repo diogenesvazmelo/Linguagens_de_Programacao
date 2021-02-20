@@ -12,9 +12,15 @@ public class Memory {
         memory.put(name, value);
     }
 
-    public void registryConstant(String name, Value<?> value){
-        // TODO REVIEW
-        consts.add(name);
+    // TODO should it throw?
+    public void registryConstant(String name, Value<?> value) throws Exception {
+        // newInsertion == true -> no 'name' element in const sets
+        boolean newInsertion = consts.add(name); 
+        if (!newInsertion){
+            throw new Exception("const already exists");
+        }
+
+        memory.put(name, value);
     }
 
     public Value<?> read(String name){
