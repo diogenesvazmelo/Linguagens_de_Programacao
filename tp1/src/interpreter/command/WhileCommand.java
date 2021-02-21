@@ -5,17 +5,18 @@ import interpreter.expr.BoolExpr;
 public class WhileCommand extends Command {
 
     private BoolExpr cond;
-    private Command cmds;
+    private Command cmd;
 
-    public WhileCommand(int line, BoolExpr cond, Command cmds) {
+    public WhileCommand(int line, BoolExpr cond, Command cmd) {
         super(line);
         this.cond = cond;
-        this.cmds = cmds;
+        this.cmd = cmd;
     }
 
+    @Override
     public void execute() {
         while (cond.expr())
-            cmds.execute();
+            cmd.execute();
     }
 
 }

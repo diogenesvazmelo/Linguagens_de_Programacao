@@ -4,6 +4,7 @@ import interpreter.value.*;
 
 public class Variable extends Expr{
     private String name;
+    private Value<?> value;
 
     public Variable(int line, String name){
         super(line);
@@ -15,7 +16,7 @@ public class Variable extends Expr{
     }
 
     public void setValue(Value value){
-        // TODO WHAT DO HERE
+        this.value = value;
     }
 
     public String getName(){

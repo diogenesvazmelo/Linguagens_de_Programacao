@@ -13,10 +13,8 @@ public class AssignCommand extends Command{
         this.right = right;
     }
 
-    public void execute(){
-        // int value = right.expr();
-        // left.setValue(value);
-
+    @Override
+    public void execute(){        
         left.setValue(right.expr());       
     }
 

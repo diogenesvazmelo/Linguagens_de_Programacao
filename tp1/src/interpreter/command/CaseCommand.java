@@ -2,6 +2,7 @@ package interpreter.command;
 
 import interpreter.expr.Expr;
 import interpreter.value.Value;
+
 import java.util.ArrayList;
 
 public class CaseCommand extends Command{
@@ -15,12 +16,30 @@ public class CaseCommand extends Command{
     }
 
     public void addOption(Value value, Command cmd){
-        CaseOption c1 = new CaseOption(value, cmd);
-        this.options.add(c1);
+        this.options.add(new CaseOption(value, cmd));
     }
 
     public void setOtherwise(Command cmd){
         this.otherwise = cmd;
     }
 
+    @Override
+    public void execute() {
+
+        boolean gotInsideCase = false;
+
+        // checks all the cases inside the switch
+        for (CaseOption caseOpt : this.options){
+            if(expr.expr().equals(caseOpt.value)){
+                caseOpt.cmd.execute();
+                gotInsideCase = true;
+                break;
+            }
+        }
+
+        // default option
+        if(!gotInsideCase){
+            this.otherwise.execute();
+        }
+    }
 }
