@@ -3,6 +3,10 @@ package syntatic;
 import java.io.IOException;
 
 import interpreter.command.Command;
+import interpreter.command.*;
+import interpreter.expr.*;
+import interpreter.util.Memory;
+import interpreter.value.StringValue;
 import lexical.Lexeme;
 import lexical.TokenType;
 import lexical.LexicalAnalysis;
@@ -10,6 +14,12 @@ import lexical.LexicalException;
 
 
 public class SyntaticAnalysis {
+
+    // memory used in the variable/consts managment
+    private Memory mem;
+    private boolean isConst;
+    private String constName;
+
 
     private LexicalAnalysis lex;
     private Lexeme current;
@@ -66,6 +76,7 @@ public class SyntaticAnalysis {
     //                [ var <var> { <var> } ]
     //                <block> '.'
     private void procProgram() throws LexicalException, IOException {
+        
         eat(TokenType.PROGRAM);
         procId();
         eat(TokenType.SEMICOLON);
@@ -91,14 +102,22 @@ public class SyntaticAnalysis {
 
         procBlock();
         eat(TokenType.DOT);
+        
     }
 
     // <const>    ::= <id> = <value> ';'
-    private void procConst() throws LexicalException, IOException {
+    private Memory procConst() throws LexicalException, IOException {        
+        // sets downflow to be related to const
+        this.isConst = true;
+        
+        this.constName = this.current.token;
         procId();
+
         eat(TokenType.EQUAL);
+
         procValue();
         eat(TokenType.SEMICOLON);
+        this.isConst = false;
     }
 
     // <var> ::= <id> { ',' <id> } [ = <value> ] ';'
@@ -294,7 +313,9 @@ public class SyntaticAnalysis {
     }
 
     // <read>     ::= readln '(' <id> { ',' <id> } ')'
-    private void procRead() throws LexicalException, IOException {
+    private ReadCommand procRead() throws LexicalException, IOException {
+        ReadCommand readCommand = new ReadCommand(this.lex.getLine());
+
         eat(TokenType.READLN);
         eat(TokenType.OPEN_PAR);
 
@@ -305,6 +326,8 @@ public class SyntaticAnalysis {
         }
 
         eat(TokenType.CLOSE_PAR);
+
+        return readCommand;
     }
     
     // <boolexpr> ::= [ not ] <cmpexpr> { (and | or) <boolexpr> }
@@ -344,7 +367,7 @@ public class SyntaticAnalysis {
     }
 
     // <expr>     ::= <term> { ('+' | '-') <term> }
-    private void procExpr() throws LexicalException, IOException {
+    private void procExpr() throws LexicalException, IOException {        
         procTerm();
 
         while (current.type == TokenType.ADD || current.type == TokenType.SUB) {
@@ -404,7 +427,10 @@ public class SyntaticAnalysis {
     }
 
     private void procString() throws LexicalException, IOException {
-        eat(TokenType.STRING);
+        eat(TokenType.STRING);     
+        if(this.isConst){
+            this.mem.registryConstant(this.constNamename, value);
+        }  
     }
 
 }
