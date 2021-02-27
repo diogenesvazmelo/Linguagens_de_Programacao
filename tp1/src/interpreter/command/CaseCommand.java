@@ -15,7 +15,7 @@ public class CaseCommand extends Command{
         this.expr = expr;
     }
 
-    public void addOption(Value value, Command cmd){
+    public void addOption(Value<?> value, Command cmd){
         this.options.add(new CaseOption(value, cmd));
     }
 

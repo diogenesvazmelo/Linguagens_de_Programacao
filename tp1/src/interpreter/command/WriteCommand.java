@@ -2,6 +2,7 @@ package interpreter.command;
 
 import java.util.ArrayList;
 import interpreter.expr.Expr;
+import interpreter.util.Memory;
 
 public class WriteCommand extends Command{
     private boolean writeln;
@@ -10,12 +11,13 @@ public class WriteCommand extends Command{
     public WriteCommand(int line){
         super(line);
         this.writeln = false;
-        exprs = new ArrayList<Expr>();
+        this.exprs = new ArrayList<Expr>();
     }
 
     public WriteCommand(int line, boolean writeln){
         super(line);
         this.writeln = writeln;
+        this.exprs = new ArrayList<Expr>();
     }
 
     public void addExpr(Expr expr){
@@ -23,14 +25,20 @@ public class WriteCommand extends Command{
     }
 
     @Override
-    public void execute(){
-        while(this.writeln){
-            for(Expr expr : this.exprs){
-                System.out.print(expr.expr().toString() + " ");
-            }
-            if(this.writeln)
-                System.out.print("\n");
+    public void execute(){           
+        // Memory.writeAllVariables();
+        for(Expr expr : this.exprs){   
+            if(Memory.contains(expr.expr().value().toString())){
+                System.out.print(
+                    Memory.read(
+                        expr.expr().value().toString()
+                        ).value()
+                    );
+            }else
+                System.out.print(expr.expr().value());
         }
+        if(this.writeln)
+            System.out.print("\n");
+        
     }
-
 }

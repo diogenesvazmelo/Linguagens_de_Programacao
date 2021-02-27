@@ -7,18 +7,17 @@ public class BlocksCommand extends Command{
 
     public BlocksCommand(int line){
         super(line);
-
-        cmds = new ArrayList<Command>();
+        this.cmds = new ArrayList<Command>();
     }
 
     public void addCommand(Command cmd){
-        cmds.add(cmd);
+        this.cmds.add(cmd);
     }
 
     @Override
-    public void execute(){
-        for(Command cmd : this.cmds){
-            cmd.execute();
-        }
+    public void execute(){                      
+        for(Command cmd : this.cmds){            
+            cmd.execute();            
+        }        
     }
 }

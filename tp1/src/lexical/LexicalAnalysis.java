@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.PushbackInputStream;
 
-import java.util.*;
-
 public class LexicalAnalysis implements AutoCloseable {
 
     private int line;

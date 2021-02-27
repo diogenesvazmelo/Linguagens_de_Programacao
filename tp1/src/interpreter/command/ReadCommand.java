@@ -4,14 +4,17 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import interpreter.expr.Variable;
 import interpreter.value.*;
+import lexical.LexicalException;
+import interpreter.util.Memory;
 
 public class ReadCommand extends Command{    
-    private ArrayList<Variable> vars;
+    private ArrayList<Variable> vars;    
 
     public ReadCommand(int line){
         super(line);
-        vars = new ArrayList<Variable>();
+        this.vars = new ArrayList<Variable>();
     }
+    
 
     public void addVariable(Variable var){
         this.vars.add(var);
@@ -22,22 +25,34 @@ public class ReadCommand extends Command{
     // maybe pass these checks to the math operations and 
     // leave everything as string
     @Override
-    public void execute(){
+    public void execute(){        
         Scanner sc = new Scanner(System.in);
-        for(Variable var : vars){
-            String s = sc.nextLine();
+        
+        for(int i=0;i< this.vars.size(); i++){            
+
+            String s = sc.next(); // TODO should it be next or next line?
+            Variable tmp = this.vars.get(i);
             if(isNumber(s)) {
                 if(hasDot(s)){
-                    double d = Double.parseDouble(s);
-                    var.setValue(new RealValue(d));
+                    double value = Double.parseDouble(s);                    
+                    tmp.setValue(new RealValue(value));
+                    
                 }else{
-                    int i = Integer.parseInt(s);
-                    var.setValue(new IntegerValue(i));
+                    int value = Integer.parseInt(s);
+                    tmp.setValue(new IntegerValue(value));
                 }
             }else{
-                var.setValue(new StringValue(s));
+                tmp.setValue(new StringValue(s));
             }
+            this.vars.set(i, tmp);
+
+
+            // TODO REMOVE
+            // System.out.println(tmp.getName() + " -> " + tmp.getValue().value());
+            // registers in memory
+            Memory.registryVariable(tmp.getName(), tmp.getValue());
         }
+        sc.close();
     }
 
     private boolean isNumber(String s){        

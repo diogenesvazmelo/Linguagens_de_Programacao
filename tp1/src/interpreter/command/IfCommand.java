@@ -7,7 +7,7 @@ public class IfCommand extends Command{
     private BoolExpr cond;
     private Command thenCmds;
     private Command elseCmds;
-
+    
     public IfCommand(int line, BoolExpr cond, Command thenCmds){
         super(line);
         this.thenCmds = thenCmds;

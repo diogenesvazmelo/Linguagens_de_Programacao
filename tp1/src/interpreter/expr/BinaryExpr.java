@@ -1,6 +1,5 @@
 package interpreter.expr;
 
-import interpreter.expr.*;
 import interpreter.value.*;
 
 public class BinaryExpr extends Expr{
@@ -17,7 +16,9 @@ public class BinaryExpr extends Expr{
 
 
     // TODO - see if it's a good idea to do a throw when comparing INT and FLOAT
-    public Value<?> expr(){
+
+    @Override
+    public Value<?> expr(){        
         switch(op){
             case AddOp:
                 if (
@@ -36,7 +37,7 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() + (double)this.right.expr().value());
                 }else{
-                    // TODO throw
+                    // TODO throw                    
                 }
             case SubOp:
                 if (
@@ -115,8 +116,8 @@ public class BinaryExpr extends Expr{
                     // TODO throw
                 }
 
-            default:
-                return null;
+            default:                
+                return this.left.expr();
         }
     }
 }

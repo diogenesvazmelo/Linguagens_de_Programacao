@@ -6,4 +6,5 @@ public enum BinaryOp {
     MulOp,
     DivOp,
     ModOp,
+    NoOp,
 }

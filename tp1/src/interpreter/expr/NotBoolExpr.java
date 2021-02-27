@@ -8,6 +8,7 @@ public class NotBoolExpr extends BoolExpr{
         this.expr = expr;
     }
 
+    @Override
     public boolean expr() {
         return !this.expr.expr();
     }

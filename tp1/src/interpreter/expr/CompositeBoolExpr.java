@@ -13,6 +13,7 @@ public class CompositeBoolExpr extends BoolExpr {
         this.right = right;
     }
 
+    @Override
     public boolean expr(){
         switch (this.op) {
             case And:

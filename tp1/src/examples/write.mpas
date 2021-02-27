@@ -1,0 +1,11 @@
+program simple;
+
+const
+  MSG = 'Enter the three sizes of a triangle: ';
+
+var 
+  a = 5;
+
+begin
+  writeln(MSG)    
+end.

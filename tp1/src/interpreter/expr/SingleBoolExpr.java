@@ -15,6 +15,7 @@ public class SingleBoolExpr extends BoolExpr {
     }
     
     // TODO - see if it's a good idea to do a throw when comparing INT and Double
+    @Override
     public boolean expr(){
         switch (op) {
             case Equal:
