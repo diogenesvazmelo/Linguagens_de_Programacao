@@ -1,10 +1,10 @@
 package interpreter.expr;
 
+import interpreter.util.Memory;
 import interpreter.value.*;
 
 public class Variable extends Expr{
-    private String name;
-    private Value<?> value;
+    private String name;    
 
     public Variable(int line, String name){
         super(line);
@@ -13,15 +13,15 @@ public class Variable extends Expr{
 
     @Override
     public Value<?> expr(){
-        return new StringValue(this.name);
+        return Memory.read(this.name);
     }
 
     public void setValue(Value<?> value){
-        this.value = value;
+        Memory.registryVariable(name, value);
     }
 
     public Value<?> getValue(){
-        return this.value;
+        return Memory.read(this.name);
     }
 
     public String getName(){

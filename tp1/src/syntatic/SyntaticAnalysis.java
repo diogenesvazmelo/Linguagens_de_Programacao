@@ -33,14 +33,14 @@ public class SyntaticAnalysis {
     }
 
     private void advance() throws LexicalException, IOException {
-        // System.out.println("Advanced (\"" + current.token + "\", " +
-        //     current.type + ")");
+        System.out.println("Advanced (\"" + current.token + "\", " +
+            current.type + ")");
         current = lex.nextToken();
     }
 
     private void eat(TokenType type) throws LexicalException, IOException {
-        // System.out.println("Expected (..., " + type + "), found (\"" + 
-        //     current.token + "\", " + current.type + ")");
+        System.out.println("Expected (..., " + type + "), found (\"" + 
+            current.token + "\", " + current.type + ")");
         if (type == current.type) {
             current = lex.nextToken();
         } else {
@@ -170,22 +170,14 @@ public class SyntaticAnalysis {
         ){
             blockCmd.addCommand(procCmd());  
             while(
-                this.current.type == TokenType.ID ||
-                this.current.type == TokenType.IF ||
-                this.current.type == TokenType.CASE ||
-                this.current.type == TokenType.WHILE ||
-                this.current.type == TokenType.REPEAT ||
-                this.current.type == TokenType.FOR ||
-                this.current.type == TokenType.WRITE ||
-                this.current.type == TokenType.WRITELN ||
-                this.current.type == TokenType.READLN
-            ){                
+                this.current.type == TokenType.SEMICOLON
+            ){           
+                advance();     
                 blockCmd.addCommand(procCmd());  
             }
         }
 
         eat(TokenType.END);
-
         return blockCmd;
     }
 
@@ -212,9 +204,7 @@ public class SyntaticAnalysis {
     }else if ( this.current.type == TokenType.ID ){     
         return procAssign();
     }
-    
-    // TODO review this
-    throw new LexicalException("weird token was read");
+    return null;
 }
 
 // <assign>   ::= <id> := <expr>
@@ -227,7 +217,7 @@ public class SyntaticAnalysis {
         Expr expr = procExpr();
         Variable var = new Variable(line, id);
 
-        Memory.registryVariable(id, expr.expr()); // TODO should it be done here or in the exec?
+        // Memory.registryVariable(id, expr.expr()); // TODO should it be done here or in the exec?
         return new AssignCommand(line, var, expr);
     }
 

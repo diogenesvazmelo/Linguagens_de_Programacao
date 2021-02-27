@@ -1,11 +1,14 @@
 program test;
 
 const
-  MSG = 'Enter the three sizes of a triangle: ';
+  MSG = 'Enter A value, 0 to stop: ';
 
 var 
   a = 5;
 
 begin
-  writeln(MSG)    
+  repeat
+    writeln(MSG);
+    readln(a)
+  until a = 0
 end.

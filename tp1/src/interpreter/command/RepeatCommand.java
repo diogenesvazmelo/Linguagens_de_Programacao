@@ -1,6 +1,7 @@
 package interpreter.command;
 
 import interpreter.expr.BoolExpr;
+import interpreter.util.Memory;
 
 import java.util.*;
 
@@ -16,7 +17,9 @@ public class RepeatCommand extends Command{
 
     @Override
     public void execute(){
-        while(cond.expr()){
+        System.out.println(Memory.read("valid").value().toString());
+        while(this.cond.expr()){
+            System.out.println("Repeat");
             for(Command cmd : this.cmds){
                 cmd.execute();
             }
