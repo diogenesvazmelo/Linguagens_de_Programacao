@@ -504,6 +504,7 @@ public class SyntaticAnalysis {
                 break;
             }
             advance();
+
             Expr right = procFactor();
             expr = new BinaryExpr(line, expr, op, right);
         }   
@@ -529,6 +530,7 @@ public class SyntaticAnalysis {
 
             eat(TokenType.OPEN_PAR);
             Expr expr = procExpr();
+            
             eat(TokenType.CLOSE_PAR);
             return expr;
         }        

@@ -27,15 +27,8 @@ public class WriteCommand extends Command{
     @Override
     public void execute(){           
         // Memory.writeAllVariables();
-        for(Expr expr : this.exprs){   
-            // if(Memory.contains(expr.expr().value().toString())){
-            //     System.out.print(
-            //         Memory.read(
-            //             expr.expr().value().toString()
-            //             ).value()
-            //         );
-            // }else
-                System.out.print(expr.expr().value());
+        for(Expr expr : this.exprs){               
+            System.out.print(expr.expr().value());
         }
         if(this.writeln)
             System.out.print("\n");

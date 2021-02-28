@@ -16,8 +16,8 @@ public class Variable extends Expr{
         return Memory.read(this.name);
     }
 
-    public void setValue(Value<?> value){
-        Memory.registryVariable(name, value);
+    public void setValue(Value<?> value){        
+        Memory.registryVariable(this.name, value);
     }
 
     public Value<?> getValue(){

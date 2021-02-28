@@ -16,10 +16,8 @@ public class RepeatCommand extends Command{
     }
 
     @Override
-    public void execute(){
-        System.out.println(Memory.read("valid").value().toString());
-        while(this.cond.expr()){
-            System.out.println("Repeat");
+    public void execute(){        
+        while(this.cond.expr()){            
             for(Command cmd : this.cmds){
                 cmd.execute();
             }
