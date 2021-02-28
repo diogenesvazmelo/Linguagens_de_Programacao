@@ -20,10 +20,10 @@ public class IfCommand extends Command{
 
     @Override
     public void execute(){
-        if (cond.expr())
-            thenCmds.execute();
-        else if (elseCmds != null) {
-            elseCmds.execute();
+        if (this.cond.expr())
+            this.thenCmds.execute();
+        else if (this.elseCmds != null) {
+            this.elseCmds.execute();
         }
     }
 }

@@ -30,7 +30,7 @@ public class CaseCommand extends Command{
 
         // checks all the cases inside the switch
         for (CaseOption caseOpt : this.options){
-            if(expr.expr().equals(caseOpt.value)){
+            if(this.expr.expr().equals(caseOpt.value)){
                 caseOpt.cmd.execute();
                 gotInsideCase = true;
                 break;

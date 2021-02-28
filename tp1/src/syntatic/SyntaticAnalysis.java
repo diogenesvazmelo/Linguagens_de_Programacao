@@ -33,14 +33,14 @@ public class SyntaticAnalysis {
     }
 
     private void advance() throws LexicalException, IOException {
-        System.out.println("Advanced (\"" + current.token + "\", " +
-            current.type + ")");
+        // System.out.println("Advanced (\"" + current.token + "\", " +
+        //     current.type + ")");
         current = lex.nextToken();
     }
 
     private void eat(TokenType type) throws LexicalException, IOException {
-        System.out.println("Expected (..., " + type + "), found (\"" + 
-            current.token + "\", " + current.type + ")");
+        // System.out.println("Expected (..., " + type + "), found (\"" + 
+        //     current.token + "\", " + current.type + ")");
         if (type == current.type) {
             current = lex.nextToken();
         } else {
@@ -207,7 +207,7 @@ public class SyntaticAnalysis {
     return null;
 }
 
-// <assign>   ::= <id> := <expr>
+    // <assign>   ::= <id> := <expr>
     private AssignCommand procAssign() throws LexicalException, IOException {
         int line = this.lex.getLine();
         String id = procId();
@@ -313,7 +313,7 @@ public class SyntaticAnalysis {
         }
 
         eat(TokenType.UNTIL);
-        BoolExpr cond = procBoolExpr();
+        BoolExpr cond = new NotBoolExpr(line, procBoolExpr());
 
         return new RepeatCommand(line, cmds, cond);
     }
@@ -476,8 +476,10 @@ public class SyntaticAnalysis {
                 break;
             }
             advance();
+
+            Expr left = expr;
             Expr right = procTerm();
-            expr = new BinaryExpr(line, expr, op, right);
+            expr = new BinaryExpr(line, left, op, right);
         }
         
         return expr;       

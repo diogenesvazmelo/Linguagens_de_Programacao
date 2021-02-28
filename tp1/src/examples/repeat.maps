@@ -10,5 +10,5 @@ begin
   repeat
     writeln(MSG);
     readln(a)
-  until not a = 0
+  until a = 0
 end.

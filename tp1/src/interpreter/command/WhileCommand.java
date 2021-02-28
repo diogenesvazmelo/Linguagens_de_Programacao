@@ -15,8 +15,8 @@ public class WhileCommand extends Command {
 
     @Override
     public void execute() {
-        while (cond.expr())
-            cmd.execute();
+        while (this.cond.expr())
+            this.cmd.execute();
     }
 
 }

@@ -16,7 +16,7 @@ public class AssignCommand extends Command{
 
     @Override
     public void execute(){        
-        left.setValue(right.expr());
+        this.left.setValue(this.right.expr());
         Memory.registryVariable(left.getName(), right.expr());
     }
 
