@@ -217,7 +217,6 @@ public class SyntaticAnalysis {
         Expr expr = procExpr();
         Variable var = new Variable(line, id);
 
-        // Memory.registryVariable(id, expr.expr()); // TODO should it be done here or in the exec?
         return new AssignCommand(line, var, expr);
     }
 
