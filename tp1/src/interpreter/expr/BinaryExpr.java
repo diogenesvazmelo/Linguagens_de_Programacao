@@ -34,14 +34,16 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() + (double)this.right.expr().value());
                 }else{
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }
             case SubOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -53,14 +55,16 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() - (double)this.right.expr().value());
                 }else{
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }
             case MulOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -72,14 +76,16 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() * (double)this.right.expr().value());
                 }else{
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }
             case DivOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -91,14 +97,16 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() / (double)this.right.expr().value());
                 }else{
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }
             case ModOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -110,7 +118,8 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() % (double)this.right.expr().value());
                 }else{
-                    // do nothing
+                    // do nothing, just return the left expr()
+                    return this.left.expr();
                 }
 
             default:                
