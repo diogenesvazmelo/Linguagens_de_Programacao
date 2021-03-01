@@ -1,14 +1,22 @@
-## Getting Started
+## Trabalho pratico de LLP
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
-## Folder Structure
+### Dupla
 
-The workspace contains two folders by default, where:
+    Nicholas Pereira Cristófaro
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+    Diogenes Vaz de Melo
 
-## Dependency Management
+### Matricula
 
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
+    Nicholas -> 201722080361
+
+
+
+## Observações
+
+Como o enunciado é bem descritivo não tem muito a ser escrito aqui, exceto as instruções para testar o interpretador feito.
+
+- abra o terminal
+- use o comando `javac mpasi.java`
+- rode um exemplo através do comando `java mpasi ./examples/<filename>.mpas`
