@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.PushbackInputStream;
 
-import java.util.*;
-
 public class LexicalAnalysis implements AutoCloseable {
 
     private int line;
@@ -104,8 +102,7 @@ public class LexicalAnalysis implements AutoCloseable {
                         lex.token += (char)c;                        
                         state = 9;
                     }else if(c == 39){
-                        // is '
-                        lex.token += (char)c;
+                        // is '                        
                         state = 11;
                     }else if(c == -1){
                         lex.type = TokenType.END_OF_FILE;
@@ -226,8 +223,7 @@ public class LexicalAnalysis implements AutoCloseable {
                     } else {
                         if (c == -1) {
                             lex.type = TokenType.UNEXPECTED_EOF;
-                        } else {                            
-                            lex.token += (char) c;
+                        } else {                                                        
                             lex.type = TokenType.STRING;
                         }
                         state = 13;

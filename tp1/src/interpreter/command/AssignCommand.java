@@ -1,6 +1,7 @@
 package interpreter.command;
 
 import interpreter.expr.Variable;
+import interpreter.util.Memory;
 import interpreter.expr.Expr;
 
 public class AssignCommand extends Command{
@@ -13,11 +14,10 @@ public class AssignCommand extends Command{
         this.right = right;
     }
 
-    public void execute(){
-        // int value = right.expr();
-        // left.setValue(value);
-
-        left.setValue(right.expr());       
+    @Override
+    public void execute(){        
+        this.left.setValue(this.right.expr());
+        Memory.registryVariable(left.getName(), right.expr());
     }
 
 }

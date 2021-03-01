@@ -1,10 +1,9 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
-import org.graalvm.compiler.lir.Variable;
+import interpreter.expr.Variable;
 
 public class ForCommand extends Command {
-
     private Variable var;
     private Expr src;
     private Expr dst;
@@ -17,10 +16,15 @@ public class ForCommand extends Command {
         this.cmd = cmd;
     }
 
-    public void execute() {
-        for (int i = this.src; i < this.dst; i++){
+    @Override
+    public void execute() {        
+        // initial value
+        this.var.setValue(this.src.expr()); 
+
+        // while var != dst
+        while( this.var.expr().equals(this.dst.expr()) == false) {
+            // executes command
             cmd.execute();
         }
     }
-
 }

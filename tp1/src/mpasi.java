@@ -1,11 +1,8 @@
-import lexical.Lexeme;
+
 import lexical.LexicalAnalysis;
 import lexical.TokenType;
-import lexical.LexicalException;
 
 import syntatic.SyntaticAnalysis;
-
-import interpreter.command.Command;
 
 public class mpasi {
 
@@ -20,29 +17,29 @@ public class mpasi {
             // O código a seguir é dado para testar o interpretador.
             // TODO: descomentar depois que o analisador léxico estiver OK.
             SyntaticAnalysis s = new SyntaticAnalysis(l);
-            s.start();            
+            s.start().execute();
             
 
-            // O código a seguir é usado apenas para testar o analisador léxico.
-            // TODO: depois de pronto, comentar o código abaixo.
-            Lexeme lex = l.nextToken();
-            while (checkType(lex.type)) {                
-                System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
-                lex = l.nextToken();
-            }
+            // // O código a seguir é usado apenas para testar o analisador léxico.
+            // // TODO: depois de pronto, comentar o código abaixo.
+            // Lexeme lex = l.nextToken();
+            // while (checkType(lex.type)) {                
+            //     System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
+            //     lex = l.nextToken();
+            // }
 
-            switch (lex.type) {
-                case INVALID_TOKEN:
-                    System.out.printf("%02d: Lexema inválido [%s]\n", l.getLine(), lex.token);
-                    break;
-                case UNEXPECTED_EOF:
-                    System.out.printf("%02d: Fim de arquivo inesperado\n", l.getLine());
-                    break;
-                default: 
-                    // end of file message
-                    System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
-                    break;
-            }
+            // switch (lex.type) {
+            //     case INVALID_TOKEN:
+            //         System.out.printf("%02d: Lexema inválido [%s]\n", l.getLine(), lex.token);
+            //         break;
+            //     case UNEXPECTED_EOF:
+            //         System.out.printf("%02d: Fim de arquivo inesperado\n", l.getLine());
+            //         break;
+            //     default: 
+            //         // end of file message
+            //         System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
+            //         break;
+            // }
         } catch (Exception e) {
             System.err.println("Internal error: " + e.getMessage());
         }
