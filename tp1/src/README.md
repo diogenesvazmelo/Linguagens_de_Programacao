@@ -4,12 +4,12 @@
 ### Dupla
 
     Nicholas Pereira Cristófaro
-
-    Diogenes Vaz de Melo
+    Diogenes Vaz Melo
 
 ### Matricula
 
     Nicholas -> 201722080361
+    Diogenes -> 201722080108
 
 
 
