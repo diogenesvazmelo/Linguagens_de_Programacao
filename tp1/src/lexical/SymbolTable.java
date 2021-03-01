@@ -63,7 +63,6 @@ public class SymbolTable {
 
     public TokenType find(String token) {
         return this.contains(token) ?
-            st.get(token) : TokenType.ID;
-            // TODO should i put tokentype.Var here??
+            st.get(token) : TokenType.ID;            
     }
 }

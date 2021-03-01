@@ -12,10 +12,7 @@ public class BinaryExpr extends Expr{
         this.left = left;
         this.right = right;
         this.op = op;
-    }
-
-
-    // TODO - see if it's a good idea to do a throw when comparing INT and FLOAT
+    }    
 
     @Override
     public Value<?> expr(){        
@@ -37,14 +34,14 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() + (double)this.right.expr().value());
                 }else{
-                    // TODO throw                    
+                    // do nothing
                 }
             case SubOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO throw
+                    // do nothing
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -56,14 +53,14 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() - (double)this.right.expr().value());
                 }else{
-                    // TODO throw
+                    // do nothing
                 }
             case MulOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO throw
+                    // do nothing
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -75,14 +72,14 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() * (double)this.right.expr().value());
                 }else{
-                    // TODO throw
+                    // do nothing
                 }
             case DivOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO throw
+                    // do nothing
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -94,14 +91,14 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() / (double)this.right.expr().value());
                 }else{
-                    // TODO throw
+                    // do nothing
                 }
             case ModOp:
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO throw
+                    // do nothing
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
                     (this.right.expr().value() instanceof Integer) 
@@ -113,7 +110,7 @@ public class BinaryExpr extends Expr{
                 ){
                     return new RealValue((double)this.left.expr().value() % (double)this.right.expr().value());
                 }else{
-                    // TODO throw
+                    // do nothing
                 }
 
             default:                

@@ -11,8 +11,7 @@ public class Memory {
     private static final Set<String> consts = new HashSet<String>();    
 
     public Memory(){}
-    
-    // TODO conflict of var and consts doesn't happen
+        
     public static void registryVariable(String name, Value<?> value) {
         if (consts.contains(name)){
             // throw new LexicalException("const already exists with that name");            
