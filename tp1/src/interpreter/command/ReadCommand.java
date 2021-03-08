@@ -26,7 +26,7 @@ public class ReadCommand extends Command{
     @Override
     public void execute(){                      
         for(Variable v : this.vars){
-            String s = sc.next(); // TODO should it be next or next line?
+            String s = sc.next();
             if(isNumber(s)) {
                 if(hasDot(s)){
                     double value = Double.parseDouble(s);                    

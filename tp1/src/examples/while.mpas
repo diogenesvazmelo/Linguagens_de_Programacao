@@ -1,4 +1,4 @@
-program rep;
+program whileloop;
 
 
 const 
@@ -8,8 +8,9 @@ var
     a = 1;
 
 begin
-    repeat
+    while not a = 0 do
+    begin
         write(MSG);
         readln(a)
-    until a = 0
+    end
 end.
