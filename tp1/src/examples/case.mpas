@@ -1,0 +1,24 @@
+program caseexample;
+
+
+const 
+    MSG = 'enter A value: ';
+
+var 
+    a = 1;
+
+begin
+    while not a = 0 do
+    begin
+        case a of
+            1 : writeln('selected one');
+            2 : writeln('selected two');
+            3 : writeln('selected three');
+            4 : writeln('selected four');
+            5 : writeln('selected five');
+            else writeln('default text');
+        end;
+        writeln(MSG);
+        readln(a)
+    end
+end.

@@ -1,0 +1,15 @@
+program forexample;
+
+const 
+    MSG = 'value of I -> ';
+
+var 
+    i = 1;
+
+begin
+    for i := 1 to 10 do
+    begin
+        writeln(MSG, i);
+        i := i + 1
+    end
+end.

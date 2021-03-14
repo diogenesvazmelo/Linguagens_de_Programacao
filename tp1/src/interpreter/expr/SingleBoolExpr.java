@@ -14,7 +14,7 @@ public class SingleBoolExpr extends BoolExpr {
         this.op = op;
     }
     
-    // TODO - see if it's a good idea to do a throw when comparing INT and Double
+    
     @Override
     public boolean expr(){
         switch (op) {
@@ -22,8 +22,7 @@ public class SingleBoolExpr extends BoolExpr {
                 if (
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
-                ) {
-                    // TODO write topologic comparison
+                ) {                    
                     return this.left.expr().value().toString().length() == this.right.expr().value().toString().length();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
@@ -43,7 +42,6 @@ public class SingleBoolExpr extends BoolExpr {
                     (this.left.expr().value() instanceof String) &&
                     (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO write topologic comparison
                     return this.left.expr().value().toString().length() != this.right.expr().value().toString().length();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
@@ -56,14 +54,13 @@ public class SingleBoolExpr extends BoolExpr {
                 ){
                     return (double)this.left.expr().value() != (double)this.right.expr().value();
                 }else{
-                    return false; // throw here - comparison between diff types should give a throw or something
+                    return false;
                 }    
             case LowerThan:
                 if (
                    (this.left.expr().value() instanceof String) &&
                    (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO write topologic comparison
                     return this.left.expr().value().toString().length() < this.right.expr().value().toString().length();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
@@ -76,14 +73,13 @@ public class SingleBoolExpr extends BoolExpr {
                 ){
                     return (double)this.left.expr().value() < (double)this.right.expr().value();
                 }else{
-                    return false; // throw here - comparison between diff types should give a throw or something
+                    return false;
                 }                
             case LowerEqual:
                 if (
                    (this.left.expr().value() instanceof String) &&
                    (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO write topologic comparison
                     return this.left.expr().value().toString().length() <= this.right.expr().value().toString().length();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
@@ -103,7 +99,6 @@ public class SingleBoolExpr extends BoolExpr {
                    (this.left.expr().value() instanceof String) &&
                    (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO write topologic comparison
                     return this.left.expr().value().toString().length() > this.right.expr().value().toString().length();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
@@ -123,7 +118,6 @@ public class SingleBoolExpr extends BoolExpr {
                    (this.left.expr().value() instanceof String) &&
                    (this.right.expr().value() instanceof String)
                 ) {
-                    // TODO write topologic comparison
                     return this.left.expr().value().toString().length() >= this.right.expr().value().toString().length();
                 }else if (
                     (this.left.expr().value() instanceof Integer) &&
@@ -136,7 +130,7 @@ public class SingleBoolExpr extends BoolExpr {
                 ){
                     return (double)this.left.expr().value() >= (double)this.right.expr().value();
                 }else{
-                    return false; // throw here - comparison between diff types should give a throw or something
+                    return false;
                 }                
             default:
                 return false;

@@ -1,0 +1,16 @@
+program whileloop;
+
+
+const 
+    MSG = 'enter A value: ';
+
+var 
+    a = 1;
+
+begin
+    while not a = 0 do
+    begin
+        write(MSG);
+        readln(a)
+    end
+end.

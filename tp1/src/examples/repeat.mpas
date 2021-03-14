@@ -1,0 +1,15 @@
+program rep;
+
+
+const 
+    MSG = 'enter A value: ';
+
+var 
+    a = 1;
+
+begin
+    repeat
+        write(MSG);
+        readln(a)
+    until a = 0
+end.
