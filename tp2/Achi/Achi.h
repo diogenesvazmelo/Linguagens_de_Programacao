@@ -35,18 +35,20 @@ private:
     int qtclicks;
     int anterior_estado;
     int anterior_indice = 0;
-    int buraco_selecionado[9];
+    //int buraco_selecionado[9];
 
 private slots:
     void play(int id);
     //void reset(Hole* m_holes[9]);
     void reset();
+    void resetBuracoSelecionado(int* buraco_selecionado);
     void showAbout();
     void showVenceu(int i);
-    void verificaVenceu(int i, int* buraco_selecionado, Hole* m_holes[9]);
-    void movimentacao(int index);
-    void mudaPecaDeLugar(int index);
-    void restauraSelecao();
+    void verificaVenceu(int i, int* buraco_selecionado);
+    void venceu(int cor, int* buraco_selecionado);
+    void movimentacao(int index, int* buraco_selecionado);
+    void mudaPecaDeLugar(int index, int* buraco_selecionado);
+    void restauraSelecao(int* buraco_selecionado);
 
 };
 
