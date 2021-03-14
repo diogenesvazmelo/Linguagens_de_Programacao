@@ -16,8 +16,8 @@ Achi::Achi(QWidget *parent)
 
       qtclicks(0),
       anterior_estado(0),
-      anterior_indice(0),
-      buraco_selecionado(){
+      anterior_indice(0){
+      //buraco_selecionado(){
 
     ui->setupUi(this);
 
@@ -51,7 +51,7 @@ Achi::~Achi() {
     delete ui;
 }
 
-void Achi::movimentacao(int index){
+void Achi::movimentacao(int index, int* buraco_selecionado){
     Hole* hole = m_holes[index];
     Q_ASSERT(hole != nullptr);
 
@@ -130,12 +130,12 @@ void Achi::movimentacao(int index){
     }
 }
 
-void Achi::mudaPecaDeLugar(int index){
+void Achi::mudaPecaDeLugar(int index, int* buraco_selecionado){
     buraco_selecionado[index] = anterior_estado;
     anterior_estado = 0;
     anterior->setState(Hole::EmptyState);
     buraco_selecionado[anterior_indice] = 0;
-    verificaVenceu(buraco_selecionado[index], buraco_selecionado, m_holes);
+    verificaVenceu(buraco_selecionado[index], buraco_selecionado);
     qtclicks++;
 }
 
@@ -164,9 +164,9 @@ void Achi::play(int index) {
 //    static int qtclicks = 0;
 //    static int anterior_estado = 0;
 //    static int anterior_indice = 0;
-//    static int buraco_selecionado[9];
+    static int buraco_selecionado[9];
 
-
+    qDebug() << QString("qtclicks: (%1)").arg(qtclicks);
     if (qtclicks == 0){
         for (int i = 0; i < 9; i++)                                             // Inicializa todos como zero
         {
@@ -188,42 +188,47 @@ void Achi::play(int index) {
             hole->setState(Hole::RedState);
             buraco_selecionado[index] = 1;
             qDebug() << QString("buraco_selecionado: (%1)").arg(buraco_selecionado[index]);
+            verificaVenceu(buraco_selecionado[index], buraco_selecionado);
             qtclicks++;
         }
         else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == 0)){
             hole->setState(Hole::BlueState);
             buraco_selecionado[index] = 2;
             qDebug() << QString("buraco_selecionado: (%1)").arg(buraco_selecionado[index]);
+            verificaVenceu(buraco_selecionado[index], buraco_selecionado);
             qtclicks++;
         }
     }
     /// FASE DE MOVIMENTAR AS PEÇAS
     else{
+        for (int i = 0; i < 9; i++){
+            qDebug() << QString("buraco_selecionado pos. (%1): (%2)").arg(i).arg(buraco_selecionado[index]);
+        }
         if (anterior_estado == 0){                                                    // Seleção da peça a ser movida
             if ((qtclicks%2 == 0) && (buraco_selecionado[index] == 1)){               // Se a peça for vermelha
-                movimentacao(index);
+                movimentacao(index, buraco_selecionado);
             }
             else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == 2)){          // Se a peça for azul
-                movimentacao(index);
+                movimentacao(index, buraco_selecionado);
             }
         }
         else{                                                                   // Local para o qual a peça será movida
             if ((index != anterior_indice) && (buraco_selecionado[index] == 10)){
                 if ((qtclicks%2 == 0) && (anterior_estado == 1)){                               // Se for a vez do vermelho e a peça anteriormente selecioanda for vermelha
                     hole->setState(Hole::RedState);
-                    mudaPecaDeLugar(index);
+                    mudaPecaDeLugar(index, buraco_selecionado);
                 }
                 else if ((qtclicks%2 != 0) && (anterior_estado == 2)){                          // Se for a vez do azul e a peça anteriormente selecioanda for azul
                     hole->setState(Hole::BlueState);
-                    mudaPecaDeLugar(index);
+                    mudaPecaDeLugar(index, buraco_selecionado);
                 }
             }
-            restauraSelecao();
+            restauraSelecao(buraco_selecionado);
         }
     }
 }
 
-void Achi::restauraSelecao(){
+void Achi::restauraSelecao(int* buraco_selecionado){
     Hole* hole;
 
     anterior_estado = 0;                                                      // Restaura a seleção da peça
@@ -237,7 +242,7 @@ void Achi::restauraSelecao(){
 }
 
 //void Achi::reset(Hole* m_holes[9]) {
-void Achi::reset() {
+void Achi::reset(int* buraco_selecionado) {
     qtclicks = -1;
     anterior_estado = 0;
     anterior_indice = 0;
@@ -251,6 +256,7 @@ void Achi::reset() {
 
         m_holes[id]->reset();
 //        hole->setState(Hole::EmptyState);
+        buraco_selecionado[id] = 0;
     }
 }
 
@@ -267,33 +273,32 @@ void Achi::showVenceu(int i) {
     msgBox.exec();
 }
 
-void Achi::verificaVenceu(int cor, int* buraco_selecionado, Hole* m_holes[9]) {
+void Achi::verificaVenceu(int cor, int* buraco_selecionado) {
     for (int i = 0; i < 9; i = i + 3){                                                                  // Procura nas linhas horizontais
-        if (buraco_selecionado[i] == buraco_selecionado[i+1] && buraco_selecionado[i+1] == buraco_selecionado[i+2]){
+        if (buraco_selecionado[i] == cor && buraco_selecionado[i+1] == cor && buraco_selecionado[i+2] == cor){
             showVenceu(cor);
-            //reset(m_holes);
-            reset();
+            reset(buraco_selecionado);
         }
     }
-    if (buraco_selecionado[6] == buraco_selecionado[4] && buraco_selecionado[4] == buraco_selecionado[2]){      // Procura na diagonal
+    if (buraco_selecionado[6] == cor && buraco_selecionado[4] == cor && buraco_selecionado[2] == cor){      // Procura na diagonal
         showVenceu(cor);
-        reset();
+        reset(buraco_selecionado);
     }
-    else if (buraco_selecionado[0] == buraco_selecionado[4] && buraco_selecionado[4] == buraco_selecionado[8]){      // Procura na diagonal
+    else if (buraco_selecionado[0] == cor && buraco_selecionado[4] == cor && buraco_selecionado[8] == cor){      // Procura na diagonal
         showVenceu(cor);
-        reset();
+        reset(buraco_selecionado);
     }
 
-    else if (buraco_selecionado[0] == buraco_selecionado[3] && buraco_selecionado[3] == buraco_selecionado[6]){         // Procura na vertical
+    else if (buraco_selecionado[0] == cor && buraco_selecionado[3] == cor && buraco_selecionado[6] == cor){         // Procura na vertical
         showVenceu(cor);
-        reset();
+        reset(buraco_selecionado);
     }
-    else if (buraco_selecionado[1] == buraco_selecionado[4] && buraco_selecionado[4] == buraco_selecionado[7]){         // Procura na vertical
+    else if (buraco_selecionado[1] == cor && buraco_selecionado[4] == cor && buraco_selecionado[7] == cor){         // Procura na vertical
         showVenceu(cor);
-        reset();
+        reset(buraco_selecionado);
     }
-    else if (buraco_selecionado[2] == buraco_selecionado[5] && buraco_selecionado[5] == buraco_selecionado[8]){         // Procura na vertical
+    else if (buraco_selecionado[2] == cor && buraco_selecionado[5] == cor && buraco_selecionado[8] == cor){         // Procura na vertical
         showVenceu(cor);
-        reset();
+        reset(buraco_selecionado);
     }
 }
