@@ -38,7 +38,7 @@ Achi::Achi(QWidget *parent)
         map->setMapping(hole, id);
         QObject::connect(hole, SIGNAL(clicked()), map, SLOT(map()));
     }
-    QObject::connect(map, SIGNAL(mappedInt(int)), this, SLOT(play(int)));
+    QObject::connect(map, SIGNAL(mapped(int)), this, SLOT(play(int)));
 
     // Compact the layout of the widgets.
     this->adjustSize();
