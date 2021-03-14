@@ -6,6 +6,11 @@
 
 #include <QDebug>
 
+#define BURACO_VAZIO 0
+#define BURACO_VERMELHO 1
+#define BURACO_AZUL 2
+#define BURACO_SELECIONADO 10
+
 Achi::Achi(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::Achi),
@@ -70,65 +75,65 @@ void Achi::movimentacao(int index, int* buraco_selecionado){
     for (int i = 0; i < 9; i++){
         switch (index){
         case 0:
-            if (buraco_selecionado[i] == 0 && (i == 1 || i == 3 || i == 4)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 1 || i == 3 || i == 4)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 1:
-            if (buraco_selecionado[i] == 0 && (i == 0 || i == 4 || i == 2)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 0 || i == 4 || i == 2)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 2:
-            if (buraco_selecionado[i] == 0 && (i == 1 || i == 4 || i == 5)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 1 || i == 4 || i == 5)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 3:
-            if (buraco_selecionado[i] == 0 && (i == 0 || i == 4 || i == 6)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 0 || i == 4 || i == 6)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 4:
-            if (buraco_selecionado[i] == 0){
+            if (buraco_selecionado[i] == BURACO_VAZIO){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 5:
-            if (buraco_selecionado[i] == 0 && (i == 2 || i == 4 || i == 8)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 2 || i == 4 || i == 8)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 6:
-            if (buraco_selecionado[i] == 0 && (i == 3 || i == 4 || i == 7)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 3 || i == 4 || i == 7)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 7:
-            if (buraco_selecionado[i] == 0 && (i == 6 || i == 4 || i == 8)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 6 || i == 4 || i == 8)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
         case 8:
-            if (buraco_selecionado[i] == 0 && (i == 4 || i == 5 || i == 7)){
+            if (buraco_selecionado[i] == BURACO_VAZIO && (i == 4 || i == 5 || i == 7)){
                 hole = m_holes[i];
-                buraco_selecionado[i] = 10;
+                buraco_selecionado[i] = BURACO_SELECIONADO;
                 hole->setState(Hole::SelectableState);
             }
             break;
@@ -140,9 +145,9 @@ void Achi::movimentacao(int index, int* buraco_selecionado){
 
 void Achi::mudaPecaDeLugar(int index, int* buraco_selecionado){
     buraco_selecionado[index] = anterior_estado;
-    anterior_estado = 0;
+    anterior_estado = BURACO_VAZIO;
     anterior->setState(Hole::EmptyState);
-    buraco_selecionado[anterior_indice] = 0;
+    buraco_selecionado[anterior_indice] = BURACO_VAZIO;
     qtclicks++;
     verificaVenceu(buraco_selecionado[index], buraco_selecionado);
 }
@@ -178,7 +183,7 @@ void Achi::play(int index) {
     if (qtclicks == 0){
         for (int i = 0; i < 9; i++)                                             // Inicializa todos como zero
         {
-            buraco_selecionado[i] = 0;
+            buraco_selecionado[i] = BURACO_VAZIO;
         }
     }
 
@@ -192,16 +197,16 @@ void Achi::play(int index) {
 
     /// FASE DE COLOCAR AS PEÇAS NO TABULEIRO
     if (qtclicks <= 5){                                                          // Quando os jogadores ainda estão colocando suas 3 peças no tabuleiro
-        if ((qtclicks%2 == 0) && (buraco_selecionado[index] == 0)){
+        if ((qtclicks%2 == 0) && (buraco_selecionado[index] == BURACO_VAZIO)){
             hole->setState(Hole::RedState);
-            buraco_selecionado[index] = 1;
+            buraco_selecionado[index] = BURACO_VERMELHO;
             qDebug() << QString("buraco_selecionado: (%1)").arg(buraco_selecionado[index]);
             qtclicks++;
             verificaVenceu(buraco_selecionado[index], buraco_selecionado);
         }
-        else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == 0)){
+        else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == BURACO_VAZIO)){
             hole->setState(Hole::BlueState);
-            buraco_selecionado[index] = 2;
+            buraco_selecionado[index] = BURACO_AZUL;
             qDebug() << QString("buraco_selecionado: (%1)").arg(buraco_selecionado[index]);
             qtclicks++;
             verificaVenceu(buraco_selecionado[index], buraco_selecionado);
@@ -209,21 +214,21 @@ void Achi::play(int index) {
     }
     /// FASE DE MOVIMENTAR AS PEÇAS
     else{
-        if (anterior_estado == 0){                                                    // Seleção da peça a ser movida
-            if ((qtclicks%2 == 0) && (buraco_selecionado[index] == 1)){               // Se a peça for vermelha
+        if (anterior_estado == BURACO_VAZIO){                                                    // Seleção da peça a ser movida
+            if ((qtclicks%2 == 0) && (buraco_selecionado[index] == BURACO_VERMELHO)){               // Se a peça for vermelha
                 movimentacao(index, buraco_selecionado);
             }
-            else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == 2)){          // Se a peça for azul
+            else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == BURACO_AZUL)){          // Se a peça for azul
                 movimentacao(index, buraco_selecionado);
             }
         }
         else{                                                                   // Local para o qual a peça será movida
-            if ((index != anterior_indice) && (buraco_selecionado[index] == 10)){
-                if ((qtclicks%2 == 0) && (anterior_estado == 1)){                               // Se for a vez do vermelho e a peça anteriormente selecioanda for vermelha
+            if ((index != anterior_indice) && (buraco_selecionado[index] == BURACO_SELECIONADO)){
+                if ((qtclicks%2 == 0) && (anterior_estado == BURACO_VERMELHO)){                               // Se for a vez do vermelho e a peça anteriormente selecioanda for vermelha
                     hole->setState(Hole::RedState);
                     mudaPecaDeLugar(index, buraco_selecionado);
                 }
-                else if ((qtclicks%2 != 0) && (anterior_estado == 2)){                          // Se for a vez do azul e a peça anteriormente selecioanda for azul
+                else if ((qtclicks%2 != 0) && (anterior_estado == BURACO_AZUL)){                          // Se for a vez do azul e a peça anteriormente selecioanda for azul
                     hole->setState(Hole::BlueState);
                     mudaPecaDeLugar(index, buraco_selecionado);
                 }
@@ -236,11 +241,11 @@ void Achi::play(int index) {
 void Achi::restauraSelecao(int* buraco_selecionado){
     Hole* hole;
 
-    anterior_estado = 0;                                                      // Restaura a seleção da peça
-    for (int i = 0; i < 9; i++){                                        // Restaura a seleção da peça
-        if (buraco_selecionado[i] == 10){
+    anterior_estado = BURACO_VAZIO;                                                      // Restaura a seleção da peça
+    for (int i = 0; i < 9; i++){                                                        // Restaura a seleção da peça
+        if (buraco_selecionado[i] == BURACO_SELECIONADO){
             hole = m_holes[i];
-            buraco_selecionado[i] = 0;
+            buraco_selecionado[i] = BURACO_VAZIO;
             hole->setState(Hole::EmptyState);
         }
     }
@@ -266,17 +271,21 @@ void Achi::reset() {
 
 void Achi::resetBuracoSelecionado(int* buraco_selecionado) {
     for (int id = 0; id < 9; ++id) {
-        buraco_selecionado[id] = 0;
+        buraco_selecionado[id] = BURACO_VAZIO;
     }
 }
 
 void Achi::showAbout() {
-    QMessageBox::information(this, tr("Sobre"), tr("Achi"));
+    QMessageBox::information(this, tr("Sobre"), tr("Achi rules\n"
+                                                   "- Cada jogador possui 3 peças\n"
+                                                   "- O jogador vermelho é o primeiro a jogar\n"
+                                                   "- O objetivo do jogo é montar uma linha com as 3 peças\n"
+                                                   "- Apos inserir as peças é possível mover uma peça para um espaço vazio"));
 }
 
 void Achi::showVenceu(int i) {
     QMessageBox msgBox;
-    if (i == 1)
+    if (i == BURACO_VERMELHO)
         msgBox.setText("Parabéns, o jogador Vermelho venceu!");
     else
         msgBox.setText("Parabéns, o jogador Azul venceu!");
