@@ -150,6 +150,10 @@ void Achi::mudaPecaDeLugar(int index, int* buraco_selecionado){
     buraco_selecionado[anterior_indice] = BURACO_VAZIO;
     qtclicks++;
     verificaVenceu(buraco_selecionado[index], buraco_selecionado);
+    if (buraco_selecionado[index] == BURACO_VERMELHO)
+        ui->label->setText("   Fase de mover: vez do jogador azul");
+    else if (buraco_selecionado[index] == BURACO_AZUL)
+        ui->label->setText("   Fase de mover: vez do jogador vermelho");
 }
 
 void Achi::play(int index) {
@@ -203,6 +207,7 @@ void Achi::play(int index) {
             qDebug() << QString("buraco_selecionado: (%1)").arg(buraco_selecionado[index]);
             qtclicks++;
             verificaVenceu(buraco_selecionado[index], buraco_selecionado);
+            ui->label->setText("   Fase de colocar: vez do jogador azul");
         }
         else if ((qtclicks%2 != 0) && (buraco_selecionado[index] == BURACO_VAZIO)){
             hole->setState(Hole::BlueState);
@@ -210,6 +215,10 @@ void Achi::play(int index) {
             qDebug() << QString("buraco_selecionado: (%1)").arg(buraco_selecionado[index]);
             qtclicks++;
             verificaVenceu(buraco_selecionado[index], buraco_selecionado);
+            if (qtclicks >= 6)
+                ui->label->setText("   Fase de mover: vez do jogador vermelho");
+            else
+                ui->label->setText("   Fase de colocar: vez do jogador vermelho");
         }
     }
     /// FASE DE MOVIMENTAR AS PEÇAS
