@@ -289,7 +289,12 @@ void Achi::showAbout() {
                                                    "- Cada jogador possui 3 peças\n"
                                                    "- O jogador vermelho é o primeiro a jogar\n"
                                                    "- O objetivo do jogo é montar uma linha com as 3 peças\n"
-                                                   "- Apos inserir as peças é possível mover uma peça para um espaço vazio"));
+                                                   "- Apos inserir as peças é possível mover uma peça para um espaço vazio\n"
+                                                   "\n"
+                                                   "\n"
+                                                   "Desenvolvido por\n"
+                                                   "- Diógenes Vaz de Melo (diogenesvazmelo@gmail.com)\n"
+                                                   "- Nicholas Cristófaro (nicholaspcr@gmail.com)"));
 }
 
 void Achi::showVenceu(int i) {
